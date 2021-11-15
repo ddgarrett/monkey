@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 
-	"github.com/ddgarrett/monkey/repl"
+	"monkey/repl"
 
 	"os"
 	"os/user"
