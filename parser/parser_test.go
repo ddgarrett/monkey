@@ -248,6 +248,10 @@ func TestParsingInfixExpressions(t *testing.T) {
 				1, len(program.Statements))
 		}
 
+		// look at what's generated BUT must use "go test -v" to see output
+		// fmt.Println(program.String()) // without line numbers
+		// t.Log(program.String())  	// with line numbers
+
 		stmt, ok := program.Statements[0].(*ast.ExpressionStatement)
 		if !ok {
 			t.Fatalf("program.Statements[0] is not ast.ExpressionStatement. got=%T",
