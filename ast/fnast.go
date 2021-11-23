@@ -6,6 +6,16 @@ import (
 	"strings"
 )
 
+// Function Literal defines a function of the form:
+//
+//	fn(x, y) {
+//		return x + y;
+//	}
+//
+// See also parser package functions in fnparser.go to parse a function:
+//  - func (p *Parser) parseFunctionLiteral() ast.Expression
+//  - func (p *Parser) parseFunctionParameters() []*ast.Identifier
+//
 type FunctionLiteral struct {
 	Token      token.Token // The 'fn' token
 	Parameters []*Identifier
