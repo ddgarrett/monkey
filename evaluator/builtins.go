@@ -5,6 +5,7 @@ import "monkey/object"
 var builtins = map[string]*object.Builtin{
 	"len":   {Fn: _len},
 	"first": {Fn: _first},
+	"last":  {Fn: _last},
 }
 
 // lenght of a string or array
@@ -38,6 +39,25 @@ func _first(args ...object.Object) object.Object {
 	arr := args[0].(*object.Array)
 	if len(arr.Elements) > 0 {
 		return arr.Elements[0]
+	}
+
+	return NULL
+}
+
+func _last(args ...object.Object) object.Object {
+	if len(args) != 1 {
+		return newError("wrong number of arguments. got=%d, want=1",
+			len(args))
+	}
+	if args[0].Type() != object.ARRAY_OBJ {
+		return newError("argument to `last` must be ARRAY, got %s",
+			args[0].Type())
+	}
+
+	arr := args[0].(*object.Array)
+	length := len(arr.Elements)
+	if length > 0 {
+		return arr.Elements[length-1]
 	}
 
 	return NULL
