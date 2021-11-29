@@ -1,6 +1,9 @@
 package evaluator
 
-import "monkey/object"
+import (
+	"fmt"
+	"monkey/object"
+)
 
 var builtins = map[string]*object.Builtin{
 	"len":   {Fn: _len},
@@ -8,6 +11,7 @@ var builtins = map[string]*object.Builtin{
 	"last":  {Fn: _last},
 	"rest":  {Fn: _rest},
 	"push":  {Fn: _push},
+	"puts":  {Fn: _puts},
 }
 
 // lenght of a string or array
@@ -104,4 +108,12 @@ func _push(args ...object.Object) object.Object {
 	newElements[length] = args[1]
 
 	return &object.Array{Elements: newElements}
+}
+
+func _puts(args ...object.Object) object.Object {
+	for _, arg := range args {
+		fmt.Println(arg.Inspect())
+	}
+
+	return NULL
 }
