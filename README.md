@@ -15,3 +15,9 @@ to extend it to add new programming elements, creating my own scripting language
 
 4. I want to continue to learn more about the Go programming language itself and best practices in programming with Go.
 
+#### December 1, 2021 Update
+
+There are now two new branches, <b>interpreter</b> and <b>compiler</b>, both based on the master branch. The interpreter branch contains code from ["Writing An Interpreter In Go"](https://interpreterbook.com/). The compiler branch contains code from ["Writing A Compler In Go"](https://compilerbook.com/).
+
+Long term, the intent is to keep the master branch an interpreter based version of the Monkey language. Accordingly, changes may be merged from the interpreter branch into the master branch, and then into the compiler branch. However it is not anticipated that changes to the compiler branch will be merged into the master branch.
+
