@@ -11,6 +11,11 @@ type Compiler struct {
 	constants    []object.Object
 }
 
+type Bytecode struct {
+	Instructions code.Instructions
+	Constants    []object.Object
+}
+
 func New() *Compiler {
 	return &Compiler{
 		instructions: code.Instructions{},
@@ -27,9 +32,4 @@ func (c *Compiler) Bytecode() *Bytecode {
 		Instructions: c.instructions,
 		Constants:    c.constants,
 	}
-}
-
-type Bytecode struct {
-	Instructions code.Instructions
-	Constants    []object.Object
 }
