@@ -42,6 +42,11 @@ func (c *Compiler) Compile(node ast.Node) error {
 		c.emit(code.OpPop)
 
 	case *ast.InfixExpression:
+
+		if node.Operator == "<" {
+			return c.reorderLessThan(node)
+		}
+
 		err := c.Compile(node.Left)
 		if err != nil {
 			return err
@@ -61,6 +66,12 @@ func (c *Compiler) Compile(node ast.Node) error {
 			c.emit(code.OpMul)
 		case "/":
 			c.emit(code.OpDiv)
+		case ">":
+			c.emit(code.OpGreaterThan)
+		case "==":
+			c.emit(code.OpEqual)
+		case "!=":
+			c.emit(code.OpNotEqual)
 		default:
 			return fmt.Errorf("unknown operator %s", node.Operator)
 		}
@@ -77,6 +88,28 @@ func (c *Compiler) Compile(node ast.Node) error {
 		}
 	}
 
+	return nil
+}
+
+// reorderLessThan reorders a less than operator
+// so that it becomes a greater than operator.
+// Example:    1 < 2
+// becomes:    2 > 1
+//
+// All we have to do is compile the Right node
+// before we compile the Left node,
+// since the compiler results are pushed onto the stack in the order they're compiled.
+func (c *Compiler) reorderLessThan(node *ast.InfixExpression) error {
+	err := c.Compile(node.Right)
+	if err != nil {
+		return err
+	}
+
+	err = c.Compile(node.Left)
+	if err != nil {
+		return err
+	}
+	c.emit(code.OpGreaterThan)
 	return nil
 }
 
