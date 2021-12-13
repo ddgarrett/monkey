@@ -37,6 +37,15 @@ func New() *Compiler {
 	}
 }
 
+// NewWithState is used to keep the symbol table and constants
+// across entered lines, such as the REPL (Read - evaluate - print Loop)
+func NewWithState(s *SymbolTable, constants []object.Object) *Compiler {
+	compiler := New()
+	compiler.symbolTable = s
+	compiler.constants = constants
+	return compiler
+}
+
 func (c *Compiler) Compile(node ast.Node) error {
 	switch node := node.(type) {
 	case *ast.Program:
