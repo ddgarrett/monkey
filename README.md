@@ -21,3 +21,7 @@ There are now two new branches, <b>interpreter</b> and <b>compiler</b>, both bas
 
 Long term, the intent is to keep the master branch an interpreter based version of the Monkey language. Accordingly, changes may be merged from the interpreter branch into the master branch, and then into the compiler branch. However it is not anticipated that changes to the compiler branch will be merged into the master branch.
 
+#### December 21, 2021 Update
+
+In ["Writing A Compiler In Go"](https://compilerbook.com/) code from 
+["Writing An Interpreter In Go"](https://interpreterbook.com/) is refactored to move  built-in function logic from the `evaluator` package to the `object` package. This allows the interpreter and compiler to use the same codebase for built-in functions. This update was made first to the interpreter branch, used to update the master branch and then pulled into the compiler branch.

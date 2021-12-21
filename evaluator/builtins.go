@@ -1,35 +1,16 @@
 package evaluator
 
 import (
-	"fmt"
 	"monkey/object"
 )
 
 var builtins = map[string]*object.Builtin{
-	"len":   {Fn: _len},
+	"len":   object.GetBuiltinByName("len"),
 	"first": {Fn: _first},
 	"last":  {Fn: _last},
 	"rest":  {Fn: _rest},
 	"push":  {Fn: _push},
-	"puts":  {Fn: _puts},
-}
-
-// lenght of a string or array
-func _len(args ...object.Object) object.Object {
-	if len(args) != 1 {
-		return newError("wrong number of arguments. got=%d, want=1",
-			len(args))
-	}
-
-	switch arg := args[0].(type) {
-	case *object.Array:
-		return &object.Integer{Value: int64(len(arg.Elements))}
-	case *object.String:
-		return &object.Integer{Value: int64(len(arg.Value))}
-	default:
-		return newError("argument to `len` not supported, got %s",
-			args[0].Type())
-	}
+	"puts":  object.GetBuiltinByName("puts"),
 }
 
 func _first(args ...object.Object) object.Object {
@@ -108,12 +89,4 @@ func _push(args ...object.Object) object.Object {
 	newElements[length] = args[1]
 
 	return &object.Array{Elements: newElements}
-}
-
-func _puts(args ...object.Object) object.Object {
-	for _, arg := range args {
-		fmt.Println(arg.Inspect())
-	}
-
-	return NULL
 }
