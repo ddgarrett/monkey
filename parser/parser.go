@@ -117,6 +117,13 @@ func (p *Parser) parseStatement() ast.Statement {
 		return p.parseLetStatement()
 	case token.RETURN:
 		return p.parseReturnStatement()
+
+	case token.IDENT:
+		if p.peekTokenIs(token.ASSIGN) {
+			return p.parseImpliedLetStatement()
+		}
+		return p.parseExpressionStatement()
+
 	default:
 		return p.parseExpressionStatement()
 	}
@@ -142,6 +149,19 @@ func (p *Parser) parseLetStatement() *ast.LetStatement {
 	if !p.expectPeek(token.IDENT) {
 		return nil
 	}
+
+	return p.parseIdentifierAssignment(stmt)
+}
+
+// parseImpliedLetStatement parses an assign statement that does not begin with "let"
+func (p *Parser) parseImpliedLetStatement() *ast.LetStatement {
+	letToken := token.Token{Type: token.LookupIdent("let"), Literal: "let"}
+	stmt := &ast.LetStatement{Token: letToken}
+
+	return p.parseIdentifierAssignment(stmt)
+}
+
+func (p *Parser) parseIdentifierAssignment(stmt *ast.LetStatement) *ast.LetStatement {
 
 	stmt.Name = &ast.Identifier{Token: p.curToken, Value: p.curToken.Literal}
 
