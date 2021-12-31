@@ -24,6 +24,40 @@ func TestArrayLiterals(t *testing.T) {
 	testIntegerObject(t, result.Elements[2], 6)
 }
 
+func TestArrayIndexExpressionsWithoutLet(t *testing.T) {
+	tests := []struct {
+		input    string
+		expected interface{}
+	}{
+
+		{
+			"i = 0; [1][i];",
+			1,
+		},
+		{
+			"myArray = [1, 2, 3]; myArray[2];",
+			3,
+		},
+		{
+			"myArray = [1, 2, 3]; myArray[0] + myArray[1] + myArray[2];",
+			6,
+		},
+		{
+			" myArray = [1, 2, 3];  i = myArray[0]; myArray[i]",
+			2,
+		},
+	}
+
+	for _, tt := range tests {
+		evaluated := testEval(tt.input)
+		integer, ok := tt.expected.(int)
+		if ok {
+			testIntegerObject(t, evaluated, int64(integer))
+		} else {
+			testNullObject(t, evaluated)
+		}
+	}
+}
 func TestArrayIndexExpressions(t *testing.T) {
 	tests := []struct {
 		input    string
